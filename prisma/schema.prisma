@@ -109,8 +109,8 @@ model Booking{
   price Float
   student User @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
   studentId String
-  // tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
-  // tutorId String
+  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  tutorId String
   //reviwe need to add
 }
 
@@ -144,6 +144,6 @@ model TutorProfile{
 
 
 
-  // bookings Booking[]
+   bookings Booking[]
   // reviews Review[]
 }

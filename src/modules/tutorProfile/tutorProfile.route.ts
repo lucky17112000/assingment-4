@@ -20,7 +20,7 @@ declare global {
     }
   }
 }
-const auth = (...roles: UserRole[]) => {
+export const auth = (...roles: UserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     console.log("auth middleware", roles);
     // i want to get user session from req.session.user
