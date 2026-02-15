@@ -30,7 +30,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
-  tutorProfile  TutorProfile?
+   tutorProfile  TutorProfile? 
   bookings      Booking[] @relation("StudentBookings")
   reviews       Review[]
 
@@ -109,8 +109,9 @@ model Booking{
   price Float
   student User @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
   studentId String
-  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
-  tutorId String
+  // tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  // tutorId String
+  //reviwe need to add
 }
 
 model Review{
@@ -120,22 +121,29 @@ model Review{
   createdAt DateTime @default(now())
   student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId String
-  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
-  tutorId String
+  // tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  // tutorId String
 }
 
 
 model TutorProfile{
   id String @id @default(uuid())
+  name String
   bio String?
+
   experience String?
   hourlyRate Float?
   availability String?
   rating Float @default(0)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId String
-  bookings Booking[]
-  reviews Review[]
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String?
+
+
+
+
+
+  // bookings Booking[]
+  // reviews Review[]
 }

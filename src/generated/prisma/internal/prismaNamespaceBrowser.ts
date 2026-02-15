@@ -152,8 +152,7 @@ export const BookingScalarFieldEnum = {
   endTime: 'endTime',
   status: 'status',
   price: 'price',
-  studentId: 'studentId',
-  tutorId: 'tutorId'
+  studentId: 'studentId'
 } as const
 
 export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
@@ -164,8 +163,7 @@ export const ReviewScalarFieldEnum = {
   rating: 'rating',
   comment: 'comment',
   createdAt: 'createdAt',
-  studentId: 'studentId',
-  tutorId: 'tutorId'
+  studentId: 'studentId'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
@@ -173,6 +171,7 @@ export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof 
 
 export const TutorProfileScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   bio: 'bio',
   experience: 'experience',
   hourlyRate: 'hourlyRate',
