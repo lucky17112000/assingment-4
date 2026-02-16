@@ -20,6 +20,60 @@ const createTutorProfile = async (payload: any, userId: string) => {
   });
   return result;
 };
+const getTutorProfile = async (payload: { search?: string }) => {
+  const whereClause: any = [];
+  if (payload.search) {
+    whereClause.push({
+      OR: [
+        {
+          name: {
+            contains: payload.search as string,
+            mode: "insensitive",
+          },
+        },
+        {
+          bio: {
+            contains: payload.search as string,
+            mode: "insensitive",
+          },
+        },
+        {
+          experience: {
+            contains: payload.search as string,
+            mode: "insensitive",
+          },
+        },
+        {
+          category: {
+            name: {
+              contains: payload.search as string,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          category: {
+            description: {
+              contains: payload.search as string,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
+    });
+  }
+  const result = await prisma.tutorProfile.findMany({
+    where: {
+      AND: whereClause,
+    },
+    include: {
+      user: true,
+      category: true,
+    },
+  });
+  return result;
+};
 export const tutorProfileService = {
   createTutorProfile,
+  getTutorProfile,
 };

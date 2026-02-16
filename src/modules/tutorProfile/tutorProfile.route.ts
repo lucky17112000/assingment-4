@@ -48,5 +48,6 @@ router.post(
   auth(UserRole.Tutor, UserRole.Admin),
   tutorProfileController.createTutorProfile,
 );
+router.get("/", tutorProfileController.getTutorProfile);
 
 export const tutorProfileRoute = router;
