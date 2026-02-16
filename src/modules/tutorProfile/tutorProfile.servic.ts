@@ -84,9 +84,26 @@ const getTutorProfile = async (
       category: true,
     },
   });
-  return result;
+  const count = await prisma.tutorProfile.count({
+    where: {
+      AND: whereClause,
+    },
+  });
+  return {
+    data: result,
+    pagination: {
+      total: count,
+      page: page,
+      limit: limit,
+      totalPages: Math.ceil(count / limit),
+    },
+  };
+};
+const getTutorProfileByuserId = async (userId: string) => {
+  console.log("getTutorProfileByuserId service called", userId);
 };
 export const tutorProfileService = {
   createTutorProfile,
   getTutorProfile,
+  getTutorProfileByuserId,
 };
