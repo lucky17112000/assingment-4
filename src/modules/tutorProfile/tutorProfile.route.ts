@@ -48,6 +48,8 @@ router.post(
   auth(UserRole.Tutor, UserRole.Admin),
   tutorProfileController.createTutorProfile,
 );
+router.put("/tutor/:TutorId", tutorProfileController.updateTutorProfile);
+router.get("/:TutorId", tutorProfileController.getTutorProfileByuserId);
 router.get("/", tutorProfileController.getTutorProfile);
 
 export const tutorProfileRoute = router;

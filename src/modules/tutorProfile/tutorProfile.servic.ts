@@ -99,11 +99,32 @@ const getTutorProfile = async (
     },
   };
 };
-const getTutorProfileByuserId = async (userId: string) => {
-  console.log("getTutorProfileByuserId service called", userId);
+const getTutorProfileByuserId = async (TutorId: string) => {
+  const result = await prisma.tutorProfile.findUnique({
+    where: {
+      id: TutorId,
+    },
+    include: {
+      user: true,
+      category: true,
+      bookings: true,
+    },
+  });
+  return result;
 };
+const updateTutorProfile = async (TutorId: string, payload: any) => {
+  const result = await prisma.tutorProfile.update({
+    where: {
+      id: TutorId,
+    },
+    data: payload,
+  });
+  return result;
+};
+
 export const tutorProfileService = {
   createTutorProfile,
   getTutorProfile,
   getTutorProfileByuserId,
+  updateTutorProfile,
 };
