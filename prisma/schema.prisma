@@ -94,6 +94,7 @@ model Category{
   description String?
   tutors TutorProfile[]
 }
+
 enum BookingStatus {
   PENDING
   CONFIRMED

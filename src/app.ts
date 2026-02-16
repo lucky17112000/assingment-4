@@ -7,6 +7,7 @@ import { tutorProfileRoute } from "./modules/tutorProfile/tutorProfile.route";
 import { bookingRoute } from "./modules/booking/booking.route";
 import { reviewRoute } from "./modules/reviwe/review.route";
 import { userManageRouter } from "./modules/admin/userManage/usermanage.route";
+import { bookingManageRouter } from "./modules/admin/bookingManage/bookingManageRouter";
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use("/api/categories", categoryRoute);
 app.use("/api/bookings", bookingRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/admin", userManageRouter);
+app.use("/api/admin/bookings", bookingManageRouter);
 
 export default app;
