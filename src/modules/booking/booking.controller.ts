@@ -19,6 +19,7 @@ const createBooking = async (req: Request, res: Response) => {
     });
   }
 };
+
 const getBookings = async (req: Request, res: Response) => {
   try {
     const { userId } = req.user || {};
