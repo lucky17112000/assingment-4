@@ -6,3 +6,8 @@
 - npm install -D @types/node-> after configuring tsconfig.json
 
 - serach implemantation in getTutorProfile
+- admin seeding
+- admin credentials:
+  email:tempreal17112000@gmail.com
+  password:Admin12345
+- pagination on tutor profile

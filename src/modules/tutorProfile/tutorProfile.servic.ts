@@ -16,7 +16,19 @@ const createTutorProfile = async (payload: any, userId: string) => {
   });
   return result;
 };
-const getTutorProfile = async (payload: { search?: string }) => {
+const getTutorProfile = async (
+  payload: {
+    search?: string;
+    page?: number;
+    limit?: number;
+    skip?: number;
+  },
+  page: number,
+  limit: number,
+  skip: number,
+  sortBy: string,
+  sortOrder: string,
+) => {
   const whereClause: any = [];
   if (payload.search) {
     whereClause.push({
@@ -59,8 +71,13 @@ const getTutorProfile = async (payload: { search?: string }) => {
     });
   }
   const result = await prisma.tutorProfile.findMany({
+    take: limit || 10,
+    skip: skip || 0,
     where: {
       AND: whereClause,
+    },
+    orderBy: {
+      [sortBy]: sortOrder,
     },
     include: {
       user: true,
