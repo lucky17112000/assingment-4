@@ -83,6 +83,7 @@ const getTutorProfile = async (
       user: true,
       category: true,
       bookings: true,
+      reviews: true,
     },
   });
   const count = await prisma.tutorProfile.count({
@@ -109,6 +110,7 @@ const getTutorProfileByuserId = async (TutorId: string) => {
       user: true,
       category: true,
       bookings: true,
+      reviews: true,
     },
   });
   return result;

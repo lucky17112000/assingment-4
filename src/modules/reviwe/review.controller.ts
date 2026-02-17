@@ -4,7 +4,9 @@ import { Request, Response } from "express";
 const createReview = async (req: Request, res: Response) => {
   console.log("create review");
   try {
-    const result = await reviewService.createReview();
+    const userId = req.user?.userId as string;
+    const result = await reviewService.createReview(req.body, userId);
+
     return res.status(201).json(result);
   } catch (error) {
     console.error("Error creating review:", error);

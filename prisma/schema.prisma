@@ -123,8 +123,8 @@ model Review{
   createdAt DateTime @default(now())
   student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId String
-  // tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
-  // tutorId String
+  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  tutorId String
 }
 
 
@@ -142,10 +142,6 @@ model TutorProfile{
   category Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String?
 
-
-
-
-
-   bookings Booking[]
-  // reviews Review[]
+  bookings Booking[]
+  reviews Review[]
 }
