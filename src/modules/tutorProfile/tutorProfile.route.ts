@@ -48,7 +48,11 @@ router.post(
   auth(UserRole.Tutor),
   tutorProfileController.createTutorProfile,
 );
-router.put("/tutor/:TutorId", tutorProfileController.updateTutorProfile);
+router.put(
+  "/tutor/:TutorId",
+  auth(UserRole.Tutor),
+  tutorProfileController.updateTutorProfile,
+);
 router.get("/:TutorId", tutorProfileController.getTutorProfileByuserId);
 router.get("/", tutorProfileController.getTutorProfile);
 
