@@ -33,6 +33,7 @@ model User {
   tutorProfile  TutorProfile? 
   bookings      Booking[] @relation("StudentBookings")
   reviews       Review[]
+  status        String    @default("active")
 
   role Role? @default(Student)
 

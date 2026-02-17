@@ -8,7 +8,11 @@ const createCategory = async (payload: any) => {
   return result;
 };
 const getCategories = async () => {
-  const result = await prisma.category.findMany();
+  const result = await prisma.category.findMany({
+    include: {
+      tutors: true,
+    },
+  });
   return result;
 };
 export const categoryService = {

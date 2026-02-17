@@ -10,6 +10,7 @@ const showAllUsers = async () => {
   });
   return result;
 };
+
 const deleteUser = async (userId: string) => {
   const result = await prisma.user.delete({
     where: {
@@ -18,8 +19,16 @@ const deleteUser = async (userId: string) => {
   });
   return result;
 };
+const updateUserStatus = async (userId: string, status: string) => {
+  const result = await prisma.user.update({
+    where: { id: userId },
+    data: { status: status },
+  });
+  return result;
+};
 
 export const userManageService = {
   showAllUsers,
   deleteUser,
+  updateUserStatus,
 };
