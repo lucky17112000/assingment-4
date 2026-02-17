@@ -1,48 +1,69 @@
 import { prisma } from "../../lib/prisma";
 
-const createBooking = async (payload: any, userId?: string) => {
-  const { sessionDate, startTime, endTime, price, status, tutorId } =
-    payload || {};
-
+// booking korte parbe student, booking er status update korte parbe tutor, and student, , admin sob booking dekhte parbe, tutor tar booking dekhte parbe, student tar booking dekhte parbe
+const createBooking = async (payload: any, studentId: string) => {
   const result = await prisma.booking.create({
     data: {
-      sessionDate,
-      startTime,
-      endTime,
-      price,
-      status,
-      student: {
-        connect: {
-          id: userId as string,
-        },
-      },
-      tutor: {
-        connect: {
-          id: tutorId as string,
-        },
-      },
+      ...payload,
+      studentId: studentId,
     },
     include: {
-      student: true,
       tutor: true,
+      student: true,
     },
   });
   return result;
 };
-
-const getBookings = async (userId: string) => {
+const getStudentBookings = async (studentId: string) => {
   const result = await prisma.booking.findMany({
     where: {
-      studentId: userId,
+      studentId: studentId,
     },
     include: {
-      student: true,
       tutor: true,
+      student: true,
+    },
+  });
+  return result;
+};
+const getTutorBookings = async (tutorId: string) => {
+  const result = await prisma.booking.findMany({
+    where: {
+      tutorId: tutorId,
+    },
+    include: {
+      tutor: true,
+      student: true,
+    },
+  });
+  return result;
+};
+const updateStudentBookingStatus = async (bookingId: string) => {
+  const result = await prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: {
+      status: "CANCELLED",
+    },
+  });
+  return result;
+};
+const updateTutorBookingStatus = async (bookingId: string, status: string) => {
+  const result = await prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: {
+      status: "COMPLETED",
     },
   });
   return result;
 };
 export const bookingService = {
   createBooking,
-  getBookings,
+  getStudentBookings,
+  getTutorBookings,
+  updateStudentBookingStatus,
+  updateTutorBookingStatus,
 };

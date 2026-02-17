@@ -106,7 +106,7 @@ model Booking{
   sessionDate DateTime
   startTime DateTime
   endTime DateTime
-  status BookingStatus @default(PENDING)
+  status BookingStatus @default(CONFIRMED)
   price Float
   student User @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
   studentId String

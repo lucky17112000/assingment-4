@@ -36,16 +36,16 @@ export const auth = (...roles: UserRole[]) => {
       name: session.user.name,
       role: session.user.role || "Student",
     };
-    // if (roles.length > 0 && !roles.includes(req.user.role as UserRole)) {
-    //   return res.status(403).json({ message: "Forbidden" });
-    // }
+    if (roles.length > 0 && !roles.includes(req.user.role as UserRole)) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
     next();
   };
 };
 
 router.post(
   "/",
-  auth(UserRole.Tutor, UserRole.Admin),
+  auth(UserRole.Tutor),
   tutorProfileController.createTutorProfile,
 );
 router.put("/tutor/:TutorId", tutorProfileController.updateTutorProfile);
