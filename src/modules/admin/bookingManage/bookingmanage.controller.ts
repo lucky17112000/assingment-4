@@ -17,6 +17,24 @@ const getAllBookings = async (req: Request, res: Response) => {
     });
   }
 };
+// remove all cancelled booking from database
+const removeCancelledBookings = async (req: Request, res: Response) => {
+  try {
+    const result = await bookingManageService.removeCancelledBookings();
+    return res.status(200).json({
+      success: true,
+      message: "Cancelled bookings removed successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error removing cancelled bookings:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
 export const bookingManageController = {
   getAllBookings,
+  removeCancelledBookings,
 };

@@ -30,7 +30,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
-   tutorProfile  TutorProfile? 
+  tutorProfile  TutorProfile? 
   bookings      Booking[] @relation("StudentBookings")
   reviews       Review[]
 

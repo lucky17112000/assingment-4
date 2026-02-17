@@ -11,22 +11,16 @@ const getAllBookings = async () => {
   });
   return result;
 };
-//upde booking status
-// const updateBookingStatus = async (
-//   bookingId: string,
-//   status: BookingStatus,
-// ) => {
-//   const result = await prisma.booking.update({
-//     where: {
-//       id: bookingId,
-//     },
-//     data: {
-//       status: status,
-//     },
-//   });
-//   return result;
-// };
+// remoove all cancelled booking from database
+const removeCancelledBookings = async () => {
+  const result = await prisma.booking.deleteMany({
+    where: {
+      status: BookingStatus.CANCELLED,
+    },
+  });
+  return result;
+};
 export const bookingManageService = {
   getAllBookings,
-  // updateBookingStatus,
+  removeCancelledBookings,
 };
