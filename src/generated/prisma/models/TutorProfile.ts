@@ -42,7 +42,6 @@ export type TutorProfileMinAggregateOutputType = {
   bio: string | null
   experience: string | null
   hourlyRate: number | null
-  availability: string | null
   rating: number | null
   userId: string | null
   categoryId: string | null
@@ -54,7 +53,6 @@ export type TutorProfileMaxAggregateOutputType = {
   bio: string | null
   experience: string | null
   hourlyRate: number | null
-  availability: string | null
   rating: number | null
   userId: string | null
   categoryId: string | null
@@ -90,7 +88,6 @@ export type TutorProfileMinAggregateInputType = {
   bio?: true
   experience?: true
   hourlyRate?: true
-  availability?: true
   rating?: true
   userId?: true
   categoryId?: true
@@ -102,7 +99,6 @@ export type TutorProfileMaxAggregateInputType = {
   bio?: true
   experience?: true
   hourlyRate?: true
-  availability?: true
   rating?: true
   userId?: true
   categoryId?: true
@@ -213,7 +209,7 @@ export type TutorProfileGroupByOutputType = {
   bio: string | null
   experience: string | null
   hourlyRate: number | null
-  availability: string | null
+  availability: runtime.JsonValue | null
   rating: number
   userId: string
   categoryId: string | null
@@ -248,7 +244,7 @@ export type TutorProfileWhereInput = {
   bio?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
   experience?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
   hourlyRate?: Prisma.FloatNullableFilter<"TutorProfile"> | number | null
-  availability?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
+  availability?: Prisma.JsonNullableFilter<"TutorProfile">
   rating?: Prisma.FloatFilter<"TutorProfile"> | number
   userId?: Prisma.StringFilter<"TutorProfile"> | string
   categoryId?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
@@ -284,7 +280,7 @@ export type TutorProfileWhereUniqueInput = Prisma.AtLeast<{
   bio?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
   experience?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
   hourlyRate?: Prisma.FloatNullableFilter<"TutorProfile"> | number | null
-  availability?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
+  availability?: Prisma.JsonNullableFilter<"TutorProfile">
   rating?: Prisma.FloatFilter<"TutorProfile"> | number
   categoryId?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -319,7 +315,7 @@ export type TutorProfileScalarWhereWithAggregatesInput = {
   bio?: Prisma.StringNullableWithAggregatesFilter<"TutorProfile"> | string | null
   experience?: Prisma.StringNullableWithAggregatesFilter<"TutorProfile"> | string | null
   hourlyRate?: Prisma.FloatNullableWithAggregatesFilter<"TutorProfile"> | number | null
-  availability?: Prisma.StringNullableWithAggregatesFilter<"TutorProfile"> | string | null
+  availability?: Prisma.JsonNullableWithAggregatesFilter<"TutorProfile">
   rating?: Prisma.FloatWithAggregatesFilter<"TutorProfile"> | number
   userId?: Prisma.StringWithAggregatesFilter<"TutorProfile"> | string
   categoryId?: Prisma.StringNullableWithAggregatesFilter<"TutorProfile"> | string | null
@@ -331,7 +327,7 @@ export type TutorProfileCreateInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   user: Prisma.UserCreateNestedOneWithoutTutorProfileInput
   category?: Prisma.CategoryCreateNestedOneWithoutTutorsInput
@@ -345,7 +341,7 @@ export type TutorProfileUncheckedCreateInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   userId: string
   categoryId?: string | null
@@ -359,7 +355,7 @@ export type TutorProfileUpdateInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutTutorProfileNestedInput
   category?: Prisma.CategoryUpdateOneWithoutTutorsNestedInput
@@ -373,7 +369,7 @@ export type TutorProfileUncheckedUpdateInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -387,7 +383,7 @@ export type TutorProfileCreateManyInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   userId: string
   categoryId?: string | null
@@ -399,7 +395,7 @@ export type TutorProfileUpdateManyMutationInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
@@ -409,7 +405,7 @@ export type TutorProfileUncheckedUpdateManyInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -458,7 +454,6 @@ export type TutorProfileMaxOrderByAggregateInput = {
   bio?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   hourlyRate?: Prisma.SortOrder
-  availability?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -470,7 +465,6 @@ export type TutorProfileMinOrderByAggregateInput = {
   bio?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   hourlyRate?: Prisma.SortOrder
-  availability?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -597,7 +591,7 @@ export type TutorProfileCreateWithoutUserInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   category?: Prisma.CategoryCreateNestedOneWithoutTutorsInput
   bookings?: Prisma.BookingCreateNestedManyWithoutTutorInput
@@ -610,7 +604,7 @@ export type TutorProfileUncheckedCreateWithoutUserInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   categoryId?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTutorInput
@@ -639,7 +633,7 @@ export type TutorProfileUpdateWithoutUserInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUpdateOneWithoutTutorsNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutTutorNestedInput
@@ -652,7 +646,7 @@ export type TutorProfileUncheckedUpdateWithoutUserInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutTutorNestedInput
@@ -665,7 +659,7 @@ export type TutorProfileCreateWithoutCategoryInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   user: Prisma.UserCreateNestedOneWithoutTutorProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutTutorInput
@@ -678,7 +672,7 @@ export type TutorProfileUncheckedCreateWithoutCategoryInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   userId: string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTutorInput
@@ -720,7 +714,7 @@ export type TutorProfileScalarWhereInput = {
   bio?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
   experience?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
   hourlyRate?: Prisma.FloatNullableFilter<"TutorProfile"> | number | null
-  availability?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
+  availability?: Prisma.JsonNullableFilter<"TutorProfile">
   rating?: Prisma.FloatFilter<"TutorProfile"> | number
   userId?: Prisma.StringFilter<"TutorProfile"> | string
   categoryId?: Prisma.StringNullableFilter<"TutorProfile"> | string | null
@@ -732,7 +726,7 @@ export type TutorProfileCreateWithoutBookingsInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   user: Prisma.UserCreateNestedOneWithoutTutorProfileInput
   category?: Prisma.CategoryCreateNestedOneWithoutTutorsInput
@@ -745,7 +739,7 @@ export type TutorProfileUncheckedCreateWithoutBookingsInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   userId: string
   categoryId?: string | null
@@ -774,7 +768,7 @@ export type TutorProfileUpdateWithoutBookingsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutTutorProfileNestedInput
   category?: Prisma.CategoryUpdateOneWithoutTutorsNestedInput
@@ -787,7 +781,7 @@ export type TutorProfileUncheckedUpdateWithoutBookingsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -800,7 +794,7 @@ export type TutorProfileCreateWithoutReviewsInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   user: Prisma.UserCreateNestedOneWithoutTutorProfileInput
   category?: Prisma.CategoryCreateNestedOneWithoutTutorsInput
@@ -813,7 +807,7 @@ export type TutorProfileUncheckedCreateWithoutReviewsInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   userId: string
   categoryId?: string | null
@@ -842,7 +836,7 @@ export type TutorProfileUpdateWithoutReviewsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutTutorProfileNestedInput
   category?: Prisma.CategoryUpdateOneWithoutTutorsNestedInput
@@ -855,7 +849,7 @@ export type TutorProfileUncheckedUpdateWithoutReviewsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -868,7 +862,7 @@ export type TutorProfileCreateManyCategoryInput = {
   bio?: string | null
   experience?: string | null
   hourlyRate?: number | null
-  availability?: string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: number
   userId: string
 }
@@ -879,7 +873,7 @@ export type TutorProfileUpdateWithoutCategoryInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutTutorProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutTutorNestedInput
@@ -892,7 +886,7 @@ export type TutorProfileUncheckedUpdateWithoutCategoryInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutTutorNestedInput
@@ -905,7 +899,7 @@ export type TutorProfileUncheckedUpdateManyWithoutCategoryInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availability?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rating?: Prisma.FloatFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -1038,7 +1032,7 @@ export type $TutorProfilePayload<ExtArgs extends runtime.Types.Extensions.Intern
     bio: string | null
     experience: string | null
     hourlyRate: number | null
-    availability: string | null
+    availability: runtime.JsonValue | null
     rating: number
     userId: string
     categoryId: string | null
@@ -1474,7 +1468,7 @@ export interface TutorProfileFieldRefs {
   readonly bio: Prisma.FieldRef<"TutorProfile", 'String'>
   readonly experience: Prisma.FieldRef<"TutorProfile", 'String'>
   readonly hourlyRate: Prisma.FieldRef<"TutorProfile", 'Float'>
-  readonly availability: Prisma.FieldRef<"TutorProfile", 'String'>
+  readonly availability: Prisma.FieldRef<"TutorProfile", 'Json'>
   readonly rating: Prisma.FieldRef<"TutorProfile", 'Float'>
   readonly userId: Prisma.FieldRef<"TutorProfile", 'String'>
   readonly categoryId: Prisma.FieldRef<"TutorProfile", 'String'>

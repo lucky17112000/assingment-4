@@ -3,11 +3,18 @@ import { prisma } from "../../lib/prisma";
 const createTutorProfile = async (payload: any, userId: string) => {
   console.log(payload);
 
+  const { name, bio, experience, hourlyRate, availability, categoryId } =
+    payload;
+
   const result = await prisma.tutorProfile.create({
     data: {
-      ...payload,
-      userId: userId,
-      //   categoryId: category?.id || null,
+      name,
+      bio,
+      experience,
+      hourlyRate: hourlyRate ? Number(hourlyRate) : undefined,
+      availability: availability ?? undefined,
+      categoryId: categoryId ?? undefined,
+      userId,
     },
     include: {
       user: true,
@@ -70,6 +77,18 @@ const getTutorProfile = async (
       ],
     });
   }
+  const validSortFields = [
+    "id",
+    "name",
+    "bio",
+    "experience",
+    "hourlyRate",
+    "availability",
+    "rating",
+    "userId",
+    "categoryId",
+  ];
+  const safeSortBy = validSortFields.includes(sortBy) ? sortBy : "id";
   const result = await prisma.tutorProfile.findMany({
     take: limit || 10,
     skip: skip || 0,
@@ -77,7 +96,7 @@ const getTutorProfile = async (
       AND: whereClause,
     },
     orderBy: {
-      [sortBy]: sortOrder,
+      [safeSortBy]: sortOrder,
     },
     include: {
       user: true,

@@ -12,30 +12,33 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-enum Role{
+
+enum Role {
   Student
   Tutor
   Admin
-
-
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean       @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   sessions      Session[]
   accounts      Account[]
-  tutorProfile  TutorProfile? 
-  bookings      Booking[] @relation("StudentBookings")
+  tutorProfile  TutorProfile?
+  bookings      Booking[]     @relation("StudentBookings")
   reviews       Review[]
-  status        String    @default("active")
+  status        String        @default("active")
 
-  role Role? @default(Student)
+  role   Role?  @default(Student)
+
+  banned     Boolean?  @default(false)
+  banReason  String?
+  banExpires DateTime?
 
   @@unique([email])
   @@map("user")
@@ -51,6 +54,8 @@ model Session {
   userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
 
   @@unique([token])
   @@index([userId])
@@ -89,11 +94,11 @@ model Verification {
   @@map("verification")
 }
 
-model Category{
-  id String @id @default(uuid())
-  name String @unique
+model Category {
+  id          String         @id @default(uuid())
+  name        String         @unique
   description String?
-  tutors TutorProfile[]
+  tutors      TutorProfile[]
 }
 
 enum BookingStatus {
@@ -102,46 +107,46 @@ enum BookingStatus {
   COMPLETED
   CANCELLED
 }
-model Booking{
-  id String @id @default(uuid())
+
+model Booking {
+  id          String        @id @default(uuid())
   sessionDate DateTime
-  startTime DateTime
-  endTime DateTime
-  status BookingStatus @default(CONFIRMED)
-  price Float
-  student User @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
-  studentId String
-  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
-  tutorId String
+  startTime   DateTime
+  endTime     DateTime
+  status      BookingStatus @default(CONFIRMED)
+  price       Float
+  student     User          @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
+  studentId   String
+  tutor       TutorProfile  @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  tutorId     String
   //reviwe need to add
 }
 
-model Review{
-  id String @id @default(uuid())
-  rating Int
-  comment String?
-  createdAt DateTime @default(now())
-  student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+model Review {
+  id        String       @id @default(uuid())
+  rating    Int
+  comment   String?
+  createdAt DateTime     @default(now())
+  student   User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId String
-  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
-  tutorId String
+  tutor     TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  tutorId   String
 }
 
-
-model TutorProfile{
-  id String @id @default(uuid())
+model TutorProfile {
+  id   String  @id @default(uuid())
   name String
-  bio String?
+  bio  String?
 
-  experience String?
-  hourlyRate Float?
-  availability String?
-  rating Float @default(0)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
-  category Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId String?
+  experience   String?
+  hourlyRate   Float?
+  availability Json?
+  rating       Float     @default(0)
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String    @unique
+  category     Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId   String?
 
   bookings Booking[]
-  reviews Review[]
+  reviews  Review[]
 }
