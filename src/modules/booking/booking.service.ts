@@ -26,10 +26,16 @@ const getStudentBookings = async (studentId: string) => {
   });
   return result;
 };
-const getTutorBookings = async (tutorId: string) => {
+const getTutorBookings = async (userId: string) => {
+  const tutorProfile = await prisma.tutorProfile.findUnique({
+    where: { userId },
+  });
+  if (!tutorProfile) {
+    return [];
+  }
   const result = await prisma.booking.findMany({
     where: {
-      tutorId: tutorId,
+      tutorId: tutorProfile.id,
     },
     include: {
       tutor: true,
