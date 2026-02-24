@@ -44,6 +44,11 @@ app.use(
 );
 
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.json({ message: "Tutor Booking API is running" });
+});
+
 app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use("/api/tutors", tutorProfileRoute);
 app.use("/api/categories", categoryRoute);
