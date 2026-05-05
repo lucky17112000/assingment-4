@@ -54,8 +54,26 @@ const updateUserStatus = async (req: Request, res: Response) => {
     });
   }
 };
+const deleteTutorProfile = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await userManageService.deleteTutorProfile(userId as string);
+    return res.status(200).json({
+      success: true,
+      message: "Tutor profile deleted successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error deleting tutor profile:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
 export const userManageController = {
   getAllUsers,
   deleteUser,
   updateUserStatus,
+  deleteTutorProfile,
 };

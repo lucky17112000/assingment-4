@@ -66,10 +66,20 @@ const updateTutorBookingStatus = async (bookingId: string, status: string) => {
   });
   return result;
 };
+const showAllBookings = async () => {
+  const result = await prisma.booking.findMany({
+    include: {
+      tutor: true,
+      student: true,
+    },
+  });
+  return result;
+};
 export const bookingService = {
   createBooking,
   getStudentBookings,
   getTutorBookings,
   updateStudentBookingStatus,
   updateTutorBookingStatus,
+  showAllBookings,
 };

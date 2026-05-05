@@ -10,6 +10,15 @@ const showAllUsers = async () => {
   });
   return result;
 };
+// delete tutor profile by admin and also delete the user
+const deleteTutorProfile = async (userId: string) => {
+  const result = await prisma.tutorProfile.delete({
+    where: {
+      userId: userId,
+    },
+  });
+  return result;
+};
 
 const deleteUser = async (userId: string) => {
   const result = await prisma.user.delete({
@@ -26,9 +35,11 @@ const updateUserStatus = async (userId: string, status: string) => {
   });
   return result;
 };
+//all booking of the user visit by admin
 
 export const userManageService = {
   showAllUsers,
   deleteUser,
   updateUserStatus,
+  deleteTutorProfile,
 };

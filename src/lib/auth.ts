@@ -7,6 +7,7 @@ import { admin } from "better-auth/plugins";
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:5000",
   trustedOrigins: [
+    "https://assingment-4-frontend.vercel.app",
     process.env.APP_URL || "http://localhost:4000",
     process.env.CLIENT_URL || "http://localhost:3000",
   ],

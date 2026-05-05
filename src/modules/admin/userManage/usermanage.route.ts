@@ -13,5 +13,10 @@ router.delete(
   auth(UserRole.Admin),
   userManageController.deleteUser,
 );
-
+router.delete(
+  "/users/:userId/tutor-profile",
+  auth(UserRole.Admin),
+  userManageController.deleteTutorProfile,
+);
+// http://localhost:4000/admin/users/:userid/tutor-profile
 export const userManageRouter = router;

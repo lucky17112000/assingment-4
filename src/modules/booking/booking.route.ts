@@ -18,6 +18,7 @@ router.put(
   auth(UserRole.Student, UserRole.Tutor),
   bookingController.updateBookingStatus,
 );
+router.get("/all", bookingController.showAllBookings);
 
 // export const bookingRoute = router;
 export const bookingRoute = router;

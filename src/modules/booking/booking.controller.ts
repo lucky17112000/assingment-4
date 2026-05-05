@@ -61,9 +61,18 @@ const updateBookingStatus = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to update booking status", error });
   }
 };
+const showAllBookings = async (req: Request, res: Response) => {
+  try {
+    const result = await bookingService.showAllBookings();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to get bookings", error });
+  }
+};
 export const bookingController = {
   createBooking,
   getStudentBookings,
   getTutorBookings,
   updateBookingStatus,
+  showAllBookings,
 };

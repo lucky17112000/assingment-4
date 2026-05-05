@@ -257,7 +257,18 @@ globalThis["__dirname"] = path.dirname(fileURLToPath(import.meta.url));
 var PrismaClient = getPrismaClientClass();
 
 // src/lib/prisma.ts
-var connectionString = `${process.env.DATABASE_URL}`;
+var rawConnectionString = process.env.DATABASE_URL || "";
+if (!rawConnectionString) {
+  throw new Error("DATABASE_URL is not set");
+}
+var ensureSslMode = (url) => {
+  if (url.includes("sslmode=")) {
+    return url;
+  }
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}sslmode=verify-full`;
+};
+var connectionString = ensureSslMode(rawConnectionString);
 var adapter = new PrismaPg({ connectionString });
 var prisma = new PrismaClient({ adapter });
 
@@ -265,6 +276,7 @@ var prisma = new PrismaClient({ adapter });
 var auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:5000",
   trustedOrigins: [
+    "https://assingment-4-frontend.vercel.app",
     process.env.APP_URL || "http://localhost:4000",
     process.env.CLIENT_URL || "http://localhost:3000"
   ],
@@ -715,12 +727,22 @@ var updateTutorBookingStatus = async (bookingId, status) => {
   });
   return result;
 };
+var showAllBookings = async () => {
+  const result = await prisma.booking.findMany({
+    include: {
+      tutor: true,
+      student: true
+    }
+  });
+  return result;
+};
 var bookingService = {
   createBooking,
   getStudentBookings,
   getTutorBookings,
   updateStudentBookingStatus,
-  updateTutorBookingStatus
+  updateTutorBookingStatus,
+  showAllBookings
 };
 
 // src/modules/booking/booking.controller.ts
@@ -781,11 +803,20 @@ var updateBookingStatus = async (req, res) => {
     res.status(500).json({ message: "Failed to update booking status", error });
   }
 };
+var showAllBookings2 = async (req, res) => {
+  try {
+    const result = await bookingService.showAllBookings();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to get bookings", error });
+  }
+};
 var bookingController = {
   createBooking: createBooking2,
   getStudentBookings: getStudentBookings2,
   getTutorBookings: getTutorBookings2,
-  updateBookingStatus
+  updateBookingStatus,
+  showAllBookings: showAllBookings2
 };
 
 // src/modules/booking/booking.route.ts
@@ -802,6 +833,7 @@ router3.put(
   auth2("Student" /* Student */, "Tutor" /* Tutor */),
   bookingController.updateBookingStatus
 );
+router3.get("/all", bookingController.showAllBookings);
 var bookingRoute = router3;
 
 // src/modules/reviwe/review.route.ts
@@ -821,8 +853,31 @@ var createReview = async (payload, userId) => {
   });
   return result;
 };
+var showAllreviews = async () => {
+  const result = await prisma.review.findMany({
+    include: {
+      tutor: true,
+      student: true
+    }
+  });
+  return result;
+};
+var showTutorReviews = async (tutorId) => {
+  const result = await prisma.review.findMany({
+    where: {
+      tutorId
+    },
+    include: {
+      tutor: true,
+      student: true
+    }
+  });
+  return result;
+};
 var reviewService = {
-  createReview
+  createReview,
+  showAllreviews,
+  showTutorReviews
 };
 
 // src/modules/reviwe/review.controller.ts
@@ -836,13 +891,79 @@ var createReview2 = async (req, res) => {
     console.error("Error creating review:", error);
   }
 };
+var showAllreviews2 = async (req, res) => {
+  try {
+    const result = await reviewService.showAllreviews();
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+};
+var showTutorReviews2 = async (req, res) => {
+  try {
+    const { userId } = req.user || {};
+    const result = await reviewService.showTutorReviews(userId);
+    return res.status(200).json({
+      success: true,
+      message: "Tutor reviews fetched successfully",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error fetching tutor reviews:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+};
+var showTutorReviewsPublic = async (req, res) => {
+  try {
+    const { tutorId } = req.params;
+    if (!tutorId) {
+      return res.status(400).json({
+        success: false,
+        message: "tutorId is required"
+      });
+    }
+    const result = await reviewService.showTutorReviews(tutorId);
+    return res.status(200).json({
+      success: true,
+      message: "Tutor reviews fetched successfully",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error fetching tutor reviews:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+};
 var reviewController = {
-  createReview: createReview2
+  createReview: createReview2,
+  showAllreviews: showAllreviews2,
+  showTutorReviews: showTutorReviews2,
+  showTutorReviewsPublic
 };
 
 // src/modules/reviwe/review.route.ts
 var router4 = Router4();
-router4.post("/", auth2("Student" /* Student */), reviewController.createReview);
+router4.post(
+  "/",
+  auth2("Student" /* Student */, "Tutor" /* Tutor */, "Admin" /* Admin */),
+  reviewController.createReview
+);
+router4.get("/", reviewController.showAllreviews);
+router4.get(
+  "/tutor/reviews",
+  auth2("Tutor" /* Tutor */),
+  reviewController.showTutorReviews
+);
+router4.get("/tutor/:tutorId", reviewController.showTutorReviewsPublic);
 var reviewRoute = router4;
 
 // src/modules/admin/userManage/usermanage.route.ts
@@ -855,6 +976,14 @@ var showAllUsers = async () => {
       tutorProfile: true
       // bookingAsStudent:true,
       // bookingAsTutor: true,
+    }
+  });
+  return result;
+};
+var deleteTutorProfile = async (userId) => {
+  const result = await prisma.tutorProfile.delete({
+    where: {
+      userId
     }
   });
   return result;
@@ -877,7 +1006,8 @@ var updateUserStatus = async (userId, status) => {
 var userManageService = {
   showAllUsers,
   deleteUser,
-  updateUserStatus
+  updateUserStatus,
+  deleteTutorProfile
 };
 
 // src/modules/admin/userManage/userManage.controllers.ts
@@ -935,10 +1065,28 @@ var updateUserStatus2 = async (req, res) => {
     });
   }
 };
+var deleteTutorProfile2 = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const result = await userManageService.deleteTutorProfile(userId);
+    return res.status(200).json({
+      success: true,
+      message: "Tutor profile deleted successfully",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error deleting tutor profile:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+};
 var userManageController = {
   getAllUsers,
   deleteUser: deleteUser2,
-  updateUserStatus: updateUserStatus2
+  updateUserStatus: updateUserStatus2,
+  deleteTutorProfile: deleteTutorProfile2
 };
 
 // src/modules/admin/userManage/usermanage.route.ts
@@ -953,6 +1101,11 @@ router5.delete(
   "/users/:userId",
   auth2("Admin" /* Admin */),
   userManageController.deleteUser
+);
+router5.delete(
+  "/users/:userId/tutor-profile",
+  auth2("Admin" /* Admin */),
+  userManageController.deleteTutorProfile
 );
 var userManageRouter = router5;
 
